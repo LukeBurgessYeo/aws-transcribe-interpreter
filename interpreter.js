@@ -58,14 +58,14 @@ const jsonOutput = segments.reduce((acc, val) => {
   acc.push({
     speaker: val.speaker,
     start: time,
-    text: newText
+    text: newText.replace(/\w/, c => c.toUpperCase()).replace(/\bi\b/g, () => 'I')
   });
   return acc;
 }, []);
 
 const fileText = jsonOutput.map(x => `(${x.start}) ${x.speaker}:${x.text}`).join('. \n\n') + '.';
 
-fs.writeFile(outputFile, fileText, function (err) {
+fs.writeFile(outputFile, fileText, (err) => {
   if (err) {
     return console.log(err);
   }
