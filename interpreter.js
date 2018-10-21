@@ -2,15 +2,18 @@
 
 const fs = require('fs');
 
+// configurable options
 const inputFile = 'transcriptions/Interview.json';
 const outputFile = 'transcriptions/Transcribed.txt';
 const host = 'Interviewer';
 const guest = 'Interviewee';
 const hostSpeaksFirst = true;
 
+// read .json file into javascript object
 const rawdata = fs.readFileSync(inputFile);
 const data = JSON.parse(rawdata);
 
+// get useful data from segments and items properties
 const rawSegments = data.results.speaker_labels.segments.map(x => ({
   speaker: x.speaker_label === (hostSpeaksFirst ? 'spk_0' : 'spk_1') ? host : guest,
   start: x.start_time,
@@ -23,6 +26,7 @@ const rawText = data.results.items.map(x => ({
   punctuation: x.type === 'punctuation'
 }));
 
+// collapse segments with same speaker
 const segments = rawSegments.reduce((acc, val) => {
   const currentSegment = acc[acc.length - 1];
   if (val.speaker === currentSegment.speaker) {
@@ -42,6 +46,7 @@ const segments = rawSegments.reduce((acc, val) => {
   }
 }, [rawSegments[0]]);
 
+// create desired output as list of objects
 const jsonOutput = segments.reduce((acc, val) => {
   const newText = rawText
     .filter(x => x.start >= Number(val.start) && x.end <= Number(val.end))
@@ -65,6 +70,7 @@ const jsonOutput = segments.reduce((acc, val) => {
   return acc;
 }, []);
 
+// format text and write to file
 const fileText = jsonOutput.map(x => `(${x.start}) ${x.speaker}:${x.text}`).join('. \n\n') + '.';
 
 fs.writeFile(outputFile, fileText, (err) => {
