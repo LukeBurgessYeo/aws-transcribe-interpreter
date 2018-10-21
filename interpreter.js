@@ -1,3 +1,5 @@
+// Basic script to make AWS Transcribe output more human readable.
+
 const fs = require('fs');
 
 const inputFile = 'transcriptions/Interview.json';

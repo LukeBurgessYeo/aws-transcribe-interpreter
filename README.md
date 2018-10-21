@@ -11,4 +11,4 @@ Takes audio with exactly two speakers and outputs a text file with the following
 ... etc.
 ```
 
-This script currently has no error handling and the code can probably be optimised a lot more, but it gets the job done.
+TODO: error handling, optimise code, add additional options.
