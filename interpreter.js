@@ -65,7 +65,7 @@ const jsonOutput = segments.reduce((acc, val) => {
   acc.push({
     speaker: val.speaker,
     start: time,
-    text: newText.replace(/\w/, c => c.toUpperCase()).replace(/\bi\b/g, () => 'I')
+    text: newText.toLowerCase().replace(/\w/, c => c.toUpperCase()).replace(/\bi\b/g, () => 'I')
   });
   return acc;
 }, []);
