@@ -1,7 +1,8 @@
 # aws-transcribe-interpreter
+
 A simple script that turns AWS Transcribe JSON output into human readable text files.
 
-Takes audio with exactly two speakers and outputs a text file with the following format:
+Takes transcribed JSON and outputs a text file with the following format:
 
 ```
 (HH:mm:ss) Speaker One: The transcribed text of the first thing said by the first speaker.
