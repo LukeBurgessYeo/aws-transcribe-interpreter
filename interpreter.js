@@ -1,13 +1,11 @@
-// Basic script to make AWS Transcribe output more human readable.
+// Basic script to make AWS Transcribe output human readable.
 
 const fs = require('fs');
 
 // configurable options
 const inputFile = 'transcriptions/Interview.json';
 const outputFile = 'transcriptions/Transcribed.txt';
-const host = 'Interviewer';
-const guest = 'Interviewee';
-const hostSpeaksFirst = true;
+const speakers = ['Host', 'Guest_1', 'Guest_2']; // in the order that they speak
 
 // read .json file into javascript object
 const rawdata = fs.readFileSync(inputFile);
@@ -15,7 +13,7 @@ const data = JSON.parse(rawdata);
 
 // get useful data from segments and items properties
 const rawSegments = data.results.speaker_labels.segments.map(x => ({
-  speaker: x.speaker_label === (hostSpeaksFirst ? 'spk_0' : 'spk_1') ? host : guest,
+  speaker: speakers[x.speaker_label.split('_')[1]],
   start: x.start_time,
   end: x.end_time
 }));
